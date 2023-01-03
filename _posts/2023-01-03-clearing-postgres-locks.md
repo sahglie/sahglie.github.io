@@ -16,12 +16,6 @@ the lock.
 
 
 ## The Clean up Process
-### FYI: View All PG Locks
-{% highlight sql %}
-select * from pg_locks;
-=> all locks ...
-{% endhighlight %}
-
 ### View A Specific Lock
 {% highlight sql %}
 select * from pg_locks where objid = <lockid>;
@@ -45,8 +39,7 @@ fastpath           | f
 waitstart          |
 {% endhighlight %}
 
-Among other things, we can see that the pid of the process that initiated this 
-lock. In this case: 28843
+Among other things, we can see the pid of the process that initiated this lock: 28843
 
 ### Stop the Process
 {% highlight sql %}
