@@ -58,7 +58,7 @@ select * from pg_stat_activity where pid = 28843;
 
 If the process is still running, we need to use a more forceful method:
 
-### I Really Mean It! Stop the Process
+### Seriously, Stop the Process!
 {% highlight sql %}
 select pg_terminatel_backend(28843);
 ----------------------------------
