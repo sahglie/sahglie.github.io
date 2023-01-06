@@ -57,11 +57,6 @@ and then shuts down. This will continue forever unless I manually clean up
 the lock.</p>
 
 <h2 id="the-clean-up-process">The Clean up Process</h2>
-<h3 id="fyi-view-all-pg-locks">FYI: View All PG Locks</h3>
-
-<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">pg_locks</span><span class="p">;</span>
-<span class="o">=&gt;</span> <span class="k">all</span> <span class="n">locks</span> <span class="p">...</span></code></pre></figure>
-
 <h3 id="view-a-specific-lock">View A Specific Lock</h3>
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">pg_locks</span> <span class="k">where</span> <span class="n">objid</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">lockid</span><span class="o">&gt;</span><span class="p">;</span>
@@ -84,8 +79,7 @@ the lock.</p>
 <span class="n">fastpath</span>           <span class="o">|</span> <span class="n">f</span>
 <span class="n">waitstart</span>          <span class="o">|</span></code></pre></figure>
 
-<p>Among other things, we can see that the pid of the process that initiated this 
-lock. In this case: 28843</p>
+<p>Among other things, we can see the pid of the process that initiated this lock: 28843</p>
 
 <h3 id="stop-the-process">Stop the Process</h3>
 
@@ -100,6 +94,8 @@ need to query pg_stat_activity to see if was actually shudown.</p>
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">pg_stat_activity</span> <span class="k">where</span> <span class="n">pid</span> <span class="o">=</span> <span class="mi">28843</span><span class="p">;</span></code></pre></figure>
 
 <p>If the process is still running, we need to use a more forceful method:</p>
+
+<h3 id="seriously-stop-the-process">Seriously, Stop the Process!</h3>
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="n">pg_terminatel_backend</span><span class="p">(</span><span class="mi">28843</span><span class="p">);</span>
 <span class="c1">----------------------------------</span>
