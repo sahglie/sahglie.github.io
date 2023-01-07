@@ -5,8 +5,6 @@ date:   2023-01-07 12:10:03 -0800
 categories: postgres db
 ---
 
-# Background
-
 I recently needed to remove a user from our database and got the following error:
 
 ```
