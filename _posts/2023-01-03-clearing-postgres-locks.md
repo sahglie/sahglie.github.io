@@ -5,8 +5,6 @@ date:   2023-01-03 14:07:03 -0800
 categories: postgres db
 ---
 
-# Background
-
 Every once in a while I run into issues where a script that uses a Postgres
 Advisory Lock crashes and the lock doesn't get released. The script is run
 via cron and since the Advisory Lock wasn't properly released, the next time
